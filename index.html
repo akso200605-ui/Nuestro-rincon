@@ -3,167 +3,306 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestro Amor 💖</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Nuestro Aniversario 💖</title>
   <style>
     body {
-      background-color: #ffe6f0;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
       overflow-x: hidden;
+      text-align: center;
     }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-top: 20px;
+      color: #fff;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      margin-top: 10px;
+      color: #fff;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+    }
+
     /* Corazones flotando */
-    .heart {
+    .hearts {
       position: fixed;
-      top: -10px;
-      color: #ff4d6d;
-      font-size: 24px;
-      animation: float 6s linear infinite;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 8s infinite;
       opacity: 0.7;
     }
+
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
     @keyframes float {
-      0% { transform: translateY(0) translateX(0); opacity: 1; }
-      100% { transform: translateY(100vh) translateX(-30px); opacity: 0; }
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
     }
-    /* Carta animada */
+
+    /* Carta 3D */
+    .card-container {
+      perspective: 1200px;
+      margin: 40px auto;
+      width: 320px;
+      height: 220px;
+      position: relative;
+      z-index: 1;
+    }
+
     .card {
-      width: 300px;
-      height: 200px;
-      background: #fff0f5;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      cursor: pointer;
-      transition: transform 0.6s;
+      width: 100%;
+      height: 100%;
+      position: absolute;
       transform-style: preserve-3d;
-      margin: auto;
+      transition: transform 1s;
+      cursor: pointer;
     }
+
     .card.open {
       transform: rotateY(180deg);
     }
+
     .card-face {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border-radius: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      text-align: center;
+      box-sizing: border-box;
     }
+
     .card-front {
-      background: #ffccd5;
+      background: #fff0f5;
+      font-size: 1.3rem;
       font-weight: bold;
-      font-size: 1.2rem;
+      color: #ff4d6d;
     }
+
     .card-back {
-      background: #fff;
+      background: #ffe4e1;
       transform: rotateY(180deg);
-      font-size: 0.95rem;
-      line-height: 1.4rem;
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.5;
+      text-align: justify;
+      overflow-y: auto;
     }
+
+    /* Imagen */
+    .collage {
+      margin: 30px auto;
+      max-width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
     /* Línea de tiempo */
     .timeline {
-      border-left: 4px solid #ff4d6d;
-      margin: 20px;
-      padding-left: 20px;
+      position: relative;
+      margin: 50px auto;
+      padding: 20px 0;
+      width: 80%;
     }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background: #ff4d6d;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -2px;
+    }
+
     .timeline-item {
-      margin-bottom: 20px;
+      padding: 20px;
+      position: relative;
+      width: 50%;
+    }
+
+    .timeline-item.left {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-item.right {
+      left: 50%;
+      text-align: left;
+    }
+
+    .timeline-item::before {
+      content: '❤️';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #ff4d6d;
+      border-radius: 50%;
+      top: 20px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+    }
+
+    .timeline-item.left::before {
+      right: -12px;
+    }
+
+    .timeline-item.right::before {
+      left: -12px;
+    }
+
+    /* Video */
+    iframe {
+      margin: 40px auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+
+    /* Mensaje final */
+    textarea {
+      width: 80%;
+      height: 100px;
+      margin: 20px auto;
+      display: block;
+      border: 2px solid #ff4d6d;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      resize: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #ff4d6d;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e63e5e;
     }
   </style>
 </head>
-<body class="font-sans text-gray-800">
+<body>
+  <div class="hearts"></div>
 
-  <!-- Corazones -->
-  <div id="hearts"></div>
+  <h1>💞 Nuestro Aniversario 💞</h1>
+  <h2>🎉 Feliz 2 meses como novios y 5 meses conociéndote 🎉</h2>
 
-  <!-- Registro -->
-  <div id="registro" class="flex flex-col items-center justify-center min-h-screen">
-    <h1 class="text-3xl font-bold mb-6">💌 Ingresa para ver tu sorpresa</h1>
-    <form id="registroForm" class="bg-white p-6 rounded-2xl shadow-lg w-80">
-      <input type="text" placeholder="Tu nombre 💕" class="w-full mb-3 p-2 rounded border" required>
-      <input type="number" placeholder="Tu edad 🎂" class="w-full mb-3 p-2 rounded border" required>
-      <input type="text" placeholder="Día de nuestro aniversario 💍" class="w-full mb-3 p-2 rounded border" required>
-      <input type="text" placeholder="Día de nuestro primer beso 💋" class="w-full mb-3 p-2 rounded border" required>
-      <button type="submit" class="w-full bg-pink-500 text-white p-2 rounded mt-2">Entrar 💖</button>
-    </form>
-  </div>
-
-  <!-- Contenido -->
-  <div id="contenido" class="hidden">
-
-    <h1 class="text-4xl font-bold text-center mt-10">✨ Feliz 2 meses como novios y 5 meses conociéndote ✨</h1>
-    <h2 class="text-xl text-center text-gray-600">📅 Nuestro aniversario: 29 de julio de 2025</h2>
-
-    <!-- Carta animada -->
-    <div class="flex justify-center mt-10">
-      <div class="card" id="carta">
-        <div class="card-face card-front">Haz clic para abrir 💌</div>
-        <div class="card-face card-back">
-          Hola mi amor, 💖  
-          Te amo de todas las maneras que puedas imaginar, amo el poder amarte, amo el que me ames, me gustas muchísimo, puede que me hayas atraído inicialmente por tus cualidades, pero te amo con todos tus defectos, te amo tanto que no quiero saber que habría pasado si hubiese conocido a otras personas, porque nos complementamos, porque nos entendemos, porque nos apoyamos, porque me gustas, te quiero y te amo, porque tú eres más que suficiente, porque tú siempre eres mi elección. 💕
-        </div>
+  <!-- Carta 3D -->
+  <div class="card-container" onclick="document.querySelector('.card').classList.toggle('open')">
+    <div class="card">
+      <div class="card-face card-front">
+        💌 Haz clic para abrir
+      </div>
+      <div class="card-face card-back">
+        Hola mi amor ❤️<br><br>
+        Te amo de todas las maneras que puedas imaginar, amo el poder amarte, amo el que me ames, me gustas muchísimo. Puede que me hayas atraído inicialmente por tus cualidades, pero te amo con todos tus defectos. 💕<br><br>
+        Te amo tanto que no quiero saber qué habría pasado si hubiese conocido a otras personas, porque nos complementamos, porque nos entendemos, porque nos apoyamos. 🌹<br><br>
+        Porque tú eres más que suficiente, porque tú siempre eres mi elección. 💖
       </div>
     </div>
+  </div>
 
-    <!-- Foto grande -->
-    <div class="photo-section">
-      <h2 class="text-2xl font-bold text-center mt-10 mb-6">📸 Nuestro Recuerdo</h2>
-      <img src="https://drive.google.com/uc?export=view&id=1q6FF5_bGzpuJouhwkJqCFIQPMSnhDq-w" 
-           alt="Collage de recuerdos" 
-           class="mx-auto rounded-2xl shadow-2xl w-3/4 lg:w-1/2">
+  <!-- Imagen -->
+  <img class="collage" src="https://drive.google.com/uc?export=view&id=1q6FF5_bGzpuJouhwkJqCFIQPMSnhDq-w" alt="Nuestro collage">
+
+  <!-- Línea de tiempo -->
+  <div class="timeline">
+    <div class="timeline-item left">
+      <h3>🌸 El comienzo de nuestra historia</h3>
+      <p>28 de marzo de 2025</p>
     </div>
-
-    <!-- Línea de tiempo -->
-    <h2 class="text-2xl font-bold text-center mt-12 mb-6">🕰️ Nuestra línea de amor</h2>
-    <div class="timeline max-w-xl mx-auto">
-      <div class="timeline-item">💞 28 de marzo de 2025 — El comienzo de nuestra historia</div>
-      <div class="timeline-item">🌹 29 de junio de 2025 — Empezó nuestro camino</div>
-      <div class="timeline-item">💍 29 de julio de 2025 — Nuestro primer aniversario</div>
-      <div class="timeline-item">✨ 28 de agosto de 2025 — Nuestro hermoso presente</div>
+    <div class="timeline-item right">
+      <h3>💑 Empezó nuestro camino</h3>
+      <p>29 de junio de 2025</p>
     </div>
-
-    <!-- Video -->
-    <div class="text-center mt-12">
-      <h2 class="text-2xl font-bold mb-4">🎶 Nuestra canción especial</h2>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/vqcjoseWAi4" 
-              title="YouTube video player" frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowfullscreen class="mx-auto rounded-2xl shadow-lg"></iframe>
+    <div class="timeline-item left">
+      <h3>🎂 Nuestro primer aniversario</h3>
+      <p>29 de julio de 2025</p>
     </div>
-
-    <!-- Mensaje -->
-    <div class="mt-12 text-center">
-      <h2 class="text-2xl font-bold mb-4">💬 Déjame un mensajito aquí</h2>
-      <textarea class="w-3/4 h-32 p-3 rounded-xl border shadow-lg"></textarea>
-      <button class="bg-pink-500 text-white px-4 py-2 rounded mt-3">Enviar 💌</button>
+    <div class="timeline-item right">
+      <h3>✨ Nuestro hermoso presente</h3>
+      <p>28 de agosto de 2025</p>
     </div>
   </div>
 
+  <!-- Video -->
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/vqcjoseWAi4" frameborder="0" allowfullscreen></iframe>
+
+  <!-- Mensaje final -->
+  <h2>💌 Déjame tu mensaje aquí 💌</h2>
+  <textarea placeholder="Escribe algo bonito..."></textarea>
+  <button>Enviar 💖</button>
+
   <script>
-    // Registro
-    document.getElementById("registroForm").addEventListener("submit", function(e){
-      e.preventDefault();
-      document.getElementById("registro").classList.add("hidden");
-      document.getElementById("contenido").classList.remove("hidden");
-    });
-
-    // Carta animada
-    document.getElementById("carta").addEventListener("click", function(){
-      this.classList.toggle("open");
-    });
-
-    // Corazones flotando
-    function crearCorazon(){
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "❤️";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (3 + Math.random() * 5) + "s";
-      document.getElementById("hearts").appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
+    // Generar corazones flotando
+    const heartsContainer = document.querySelector('.hearts');
+    for (let i = 0; i < 20; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+      heart.style.opacity = Math.random();
+      heartsContainer.appendChild(heart);
     }
-    setInterval(crearCorazon, 500);
   </script>
 </body>
 </html>
