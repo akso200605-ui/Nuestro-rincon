@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nuestro Aniversario 💖</title>
+
+  <!-- Tipografías -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#ff4d6d;
+      --accent-2:#ff8aa0;
+      --bg1:#fff5f8;
+      --card:#fff7fb;
+      --text:#3b2a2f;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: linear-gradient(180deg,#fff7fb 0%, #ffeef6 50%, #f3f7ff 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* ------------------ HEARTS (background) ------------------ */
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      transform: rotate(45deg);
+      opacity: 0.9;
+      will-change: transform, opacity;
+    }
+    .heart::before,.heart::after{
+      content:'';
+      position:absolute;
+      width:18px;height:18px;border-radius:50%;
+      background:var(--accent);
+    }
+    .heart::before{ top:-9px; left:0 }
+    .heart::after{ left:9px; top:0 }
+
+    /* ------------------ REGISTRO (vertical center) ------------------ */
+    .center-screen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      z-index:2;
+    }
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,248,250,0.95));
+      border-radius:16px;
+      width:380px; max-width:94%;
+      padding:20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+      text-align:center;
+    }
+    .title {
+      font-family: 'Dancing Script', cursive;
+      font-size:2.2rem;
+      color:var(--accent);
+      margin:4px 0 10px;
+    }
+    .muted { color: #6b4a50; opacity:0.9; margin-bottom:10px; font-weight:600; }
+
+    form input {
+      width:100%;
+      padding:10px 12px;
+      margin:8px 0;
+      border-radius:10px;
+      border:2px solid rgba(255,77,109,0.12);
+      font-size:0.95rem;
+      outline:none;
+    }
+    form button {
+      width:100%;
+      margin-top:10px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color:white;
+      border:none;
+      padding:10px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(255,77,109,0.18);
+    }
+
+    /* ------------------ MAIN CONTENT ------------------ */
+    #mainContent{ display:none; position:relative; z-index:2; padding:24px 18px 60px; }
+
+    .page-header{ text-align:center; margin-top:6px; }
+    .page-header h1{
+      font-family: 'Dancing Script', cursive;
+      font-size:2.8rem;
+      margin:8px 0;
+      color:#5a1a3c;
+      text-shadow:0 4px 14px rgba(0,0,0,0.08);
+    }
+    .page-header p.sub{ margin:6px 0 18px; color:#4a2a35; opacity:0.95; font-weight:600; }
+
+    /* ------------------ CARD 3D (fixed text inside) ------------------ */
+    .card-wrap { perspective:1200px; width:360px; max-width:94%; margin:12px auto 12px; }
+    .card {
+      width:100%; height:240px; border-radius:14px;
+      position:relative; transform-style:preserve-3d; transition:transform 0.75s cubic-bezier(.2,.9,.2,1);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.14); cursor:pointer;
+      background:var(--card);
+    }
+    .card.is-flipped { transform: rotateY(180deg); }
+    .card-side {
+      position:absolute; inset:0; border-radius:14px; backface-visibility:hidden;
+      display:flex; align-items:center; justify-content:center; padding:18px; box-sizing:border-box;
+    }
+    .card-front {
+      background: linear-gradient(180deg,#fff6fb,#fff0f4);
+      color:var(--accent);
+      font-weight:800; font-size:1.05rem; text-align:center;
+    }
+    .card-back {
+      background: linear-gradient(180deg,#fff,#fff6f7);
+      transform: rotateY(180deg);
+      color: #3b2a2f;
+      overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+      padding:14px;
+    }
+
+    /* Ensure message fits inside: scroll if too long */
+    .card-back .content {
+      width:100%;
+      max-height:100%;
+      overflow:auto;
+      text-align:left;
+      line-height:1.5;
+      font-size:0.98rem;
+      padding-right:6px; /* give space for scrollbar */
+    }
+    .card-back .content p{ margin:0 0 10px; word-break:break-word; }
+
+    /* ------------------ COLLAGE IMAGE ------------------ */
+    .collage-wrap{ margin:22px auto; width:94%; max-width:820px; text-align:center; }
+    .collage {
+      width:100%;
+      height:auto;
+      border-radius:14px;
+      box-shadow:0 12px 30px rgba(0,0,0,0.14);
+      object-fit:cover;
+      display:block;
+      max-height:620px;
+    }
+    .collage-fallback {
+      max-width:720px;
+      margin:12px auto;
+      background: #fff0f5;
+      padding:16px;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+      color:#6b3b43;
+    }
+
+    /* ------------------ TIMELINE (vertical central line) ------------------ */
+    .timeline-area { max-width:920px; margin:36px auto; padding:10px 18px; }
+    .timeline {
+      position:relative; padding:10px 0 40px; margin:0 auto;
+    }
+    .timeline::before{
+      content:''; position:absolute; left:50%; transform:translateX(-50%);
+      width:6px; height:100%; background: linear-gradient(180deg,var(--accent),var(--accent-2));
+      border-radius:6px; top:0; z-index:1;
+    }
+    .timeline-item {
+      position:relative; width:50%; padding:12px 28px; box-sizing:border-box;
+      display:flex; align-items:center; justify-content:flex-start;
+    }
+    .timeline-item .box {
+      background: #fff7fb; padding:12px 16px; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,0.06);
+      max-width:100%; font-weight:700; text-align:left;
+    }
+    .timeline-item.left { left:0; justify-content:flex-end; text-align:right; }
+    .timeline-item.right { left:50%; justify-content:flex-start; text-align:left; }
+    .timeline-item::after {
+      content:''; position:absolute; width:18px; height:18px; background:var(--accent); border-radius:50%;
+      left:50%; transform:translateX(-50%); top:22px; z-index:2; box-shadow:0 6px 12px rgba(0,0,0,0.12);
+    }
+
+    /* small screens: stack */
+    @media (max-width:760px){
+      .timeline::before{ left:28px; transform:none; }
+      .timeline-item{ width:100%; padding-left:64px; padding-right:18px; margin-bottom:16px; }
+      .timeline-item.left, .timeline-item.right { left:0; justify-content:flex-start; text-align:left; }
+      .timeline-item::after{ left:28px; transform:none; top:18px; }
+      .card { height:210px; }
+      .card-back .content{ font-size:0.95rem; }
+    }
+
+    /* ------------------ VIDEO & MESSAGE ------------------ */
+    .video-wrap{ text-align:center; margin:26px auto 30px; }
+    iframe.responsive{
+      width:calc(100% - 40px); max-width:900px; height:500px; border-radius:12px; border:0;
+      box-shadow:0 12px 30px rgba(0,0,0,0.12);
+    }
+    .message-area{ text-align:center; margin-bottom:80px; }
+    .message-area textarea{
+      width:min(860px,94%); min-height:120px; padding:14px; border-radius:12px;
+      border:2px solid rgba(255,77,109,0.12); font-size:1rem; resize:none;
+    }
+    .send-btn {
+      margin-top:12px; background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white; border:0; padding:10px 18px; border-radius:10px; font-weight:800; cursor:pointer;
+    }
+
+    /* small helpers */
+    .muted { color:#6b3b43; opacity:0.9; }
+    .center-small { text-align:center; }
+  </style>
+</head>
+<body>
+
+  <!-- hearts background -->
+  <div class="hearts" aria-hidden="true"></div>
+
+  <!-- REGISTRO -->
+  <section id="registroSection" class="center-screen" aria-label="Registro falso">
+    <div class="panel">
+      <div class="title">💌 Nuestro rincón privado</div>
+      <div class="muted">Completa estos datos para entrar (es un registro bonito) 💕</div>
+      <form id="fakeForm" autocomplete="off">
+        <input id="f_nombre" type="text" placeholder="Tu nombre 💕" required>
+        <input id="f_edad"  type="number" placeholder="Tu edad 🎂" required>
+        <input id="f_aniversario" type="text" placeholder="Día de nuestro aniversario 💍" required>
+        <input id="f_primerBeso" type="text" placeholder="Día de nuestro primer beso 💋" required>
+        <button type="submit">Ingresar y ver la sorpresa 💖</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- MAIN (hidden until registro submit) -->
+  <main id="mainContent" role="main" aria-live="polite">
+
+    <header class="page-header">
+      <h1>✨ Nuestro Aniversario ✨</h1>
+      <p class="sub">🎉 Feliz 2 meses como novios y 5 meses conociéndote 🎉</p>
+    </header>
+
+    <!-- CARD 3D -->
+    <div class="card-wrap" style="margin-top:6px;">
+      <div class="card" id="card" tabindex="0" role="button" aria-pressed="false" aria-label="Carta romántica. Haz clic para abrir">
+        <div class="card-side card-front">
+          <div>
+            <div style="font-weight:800; font-size:1.05rem;">💌 Haz clic para abrir la carta</div>
+            <div style="font-size:0.82rem; color:#6d4950; margin-top:6px;">(Tu mensaje especial está adentro)</div>
+          </div>
+        </div>
+
+        <div class="card-side card-back">
+          <div class="content" id="cardContent">
+            <p>
+              Hola mi amor ❤️<br><br>
+              Te amo de todas las maneras que puedas imaginar, amo el poder amarte, amo el que me ames, me gustas muchísimo. Puede que me hayas atraído inicialmente por tus cualidades, pero te amo con todos tus defectos. 💕
+            </p>
+            <p>
+              Te amo tanto que no quiero saber qué habría pasado si hubiese conocido a otras personas, porque nos complementamos, porque nos entendemos, porque nos apoyamos. 🌹
+            </p>
+            <p>
+              Porque tú eres más que suficiente, porque tú siempre eres mi elección. 💖
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLLAGE IMAGE (exact name you provided)
+         Note: if the filename contains spaces, we URL-encode them here.
+         Make sure the file is uploaded to the repo root with EXACT same name
+         or rename it to something sin espacios (recommended). -->
+    <div class="collage-wrap">
+      <img id="collageImg" class="collage"
+           src="Imagen%20de%20WhatsApp%202025-08-28%20a%20las%2010.51.48_80b16175.jpg"
+           alt="Nuestro collage de recuerdos">
+      <div id="imgFallback" class="collage-fallback" style="display:none;"></div>
+      <p class="muted center-small">📸 Nuestro recuerdo (collage)</p>
+    </div>
+
+    <!-- TIMELINE -->
+    <section class="timeline-area" aria-label="Nuestra linea de amor">
+      <div class="timeline">
+        <div class="timeline-item left">
+          <div class="box">💫 El comienzo de nuestra historia<br><span style="font-weight:600; opacity:0.9;">📅 28 de marzo de 2025</span></div>
+        </div>
+
+        <div class="timeline-item right">
+          <div class="box">🌹 Empezó nuestro camino<br><span style="font-weight:600; opacity:0.9;">📅 29 de junio de 2025</span></div>
+        </div>
+
+        <div class="timeline-item left">
+          <div class="box">💍 Nuestro primer aniversario<br><span style="font-weight:600; opacity:0.9;">📅 29 de julio de 2025</span></div>
+        </div>
+
+        <div class="timeline-item right">
+          <div class="box">✨ Nuestro hermoso presente<br><span style="font-weight:600; opacity:0.9;">📅 28 de agosto de 2025</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <div class="video-wrap">
+      <iframe class="responsive"
+              src="https://www.youtube.com/embed/vqcjoseWAi4"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              title="Nuestra canción" allowfullscreen></iframe>
+    </div>
+
+    <!-- MESSAGE -->
+    <section class="message-area" aria-label="Enviar mensaje">
+      <h3 style="font-family:'Dancing Script',cursive;font-size:1.6rem;margin-bottom:8px;">✍️ Déjame tu mensajito 💕</h3>
+      <textarea id="msgText" placeholder="Escribe algo bonito..."></textarea><br>
+      <button class="send-btn" id="sendBtn">Enviar y guardar 💖</button>
+      <p id="saveNote" class="muted" style="display:none;margin-top:8px;">Mensaje guardado localmente ✅</p>
+    </section>
+
+  </main>
+
+  <script>
+    /* ---------------- hearts spawn ---------------- */
+    const heartsEl = document.querySelector('.hearts');
+    function createHeart(){
+      const el = document.createElement('div');
+      el.className = 'heart';
+      const size = 10 + Math.random()*28;
+      el.style.width = size+'px';
+      el.style.height = size+'px';
+      el.style.left = (Math.random()*100)+'vw';
+      el.style.top = (100 + Math.random()*30)+'vh';
+      el.style.opacity = (0.35 + Math.random()*0.7);
+      heartsEl.appendChild(el);
+
+      // animate using transitions (translateY)
+      const dur = 6 + Math.random()*6;
+      el.style.transition = `transform ${dur}s linear, opacity ${dur}s linear`;
+      requestAnimationFrame(()=> {
+        el.style.transform = `translateY(-140vh) rotate(45deg)`;
+        el.style.opacity = 0;
+      });
+      setTimeout(()=> el.remove(), (dur+0.2)*1000);
+    }
+    for(let i=0;i<8;i++) createHeart();
+    setInterval(createHeart, 600);
+
+    /* ---------------- form show/hide ---------------- */
+    const fakeForm = document.getElementById('fakeForm');
+    const registroSection = document.getElementById('registroSection');
+    const mainContent = document.getElementById('mainContent');
+
+    fakeForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      // optionally you can read values: const name = document.getElementById('f_nombre').value;
+      registroSection.style.display = 'none';
+      mainContent.style.display = '';
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    /* ---------------- card flip & accessibility ---------------- */
+    const card = document.getElementById('card');
+    card.addEventListener('click', ()=> card.classList.toggle('is-flipped'));
+    card.addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); card.classList.toggle('is-flipped'); } });
+
+    /* ---------------- save messages in localStorage ---------------- */
+    const sendBtn = document.getElementById('sendBtn');
+    const msgText = document.getElementById('msgText');
+    const saveNote = document.getElementById('saveNote');
+    sendBtn.addEventListener('click', ()=>{
+      const t = msgText.value.trim();
+      if(!t){ alert('Escribe algo lindo antes de enviar 💌'); return; }
+      const store = JSON.parse(localStorage.getItem('mensajes_nuestro_rincon')||'[]');
+      store.push({text:t, date:new Date().toISOString()});
+      localStorage.setItem('mensajes_nuestro_rincon', JSON.stringify(store));
+      msgText.value = '';
+      saveNote.style.display = 'block';
+      setTimeout(()=> saveNote.style.display='none', 3000);
+    });
+
+    /* ---------------- collage image fallback (if not uploaded or wrong name) ---------------- */
+    const collageImg = document.getElementById('collageImg');
+    const imgFallback = document.getElementById('imgFallback');
+    collageImg.addEventListener('error', ()=>{
+      collageImg.style.display = 'none';
+      imgFallback.style.display = 'block';
+      imgFallback.innerHTML = 'La imagen no se pudo cargar. <br> Asegúrate de haber subido al repositorio el archivo con el nombre exacto:<br><strong>Imagen de WhatsApp 2025-08-28 a las 10.51.48_80b16175.jpg</strong><br>Si prefieres, renómbrala a <code>collage.jpg</code> y usa <code>src="collage.jpg"</code>.';
+    });
+
+    /* ---------------- reveal timeline items on scroll ---------------- */
+    const items = document.querySelectorAll('.timeline-item');
+    const IO = new IntersectionObserver((entries, obs) => {
+      entries.forEach(en => {
+        if(en.isIntersecting){
+          en.target.style.opacity = 1;
+          en.target.style.transform = 'translateY(0)';
+          obs.unobserve(en.target);
+        }
+      });
+    }, {threshold:0.12});
+    items.forEach(it => { it.style.opacity = 0; it.style.transform = 'translateY(12px)'; IO.observe(it); });
+
+  </script>
+</body>
+</html>
