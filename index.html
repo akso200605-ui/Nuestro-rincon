@@ -1,462 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nuestro Aniversario 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Nunito:wght@300;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Feliz Aniversario Amor</title>
   <style>
-    :root{
-      --pink:#ff5c8a;
-      --soft:#fff0f5;
-      --bg1:#fff0f5;
-      --bg2:#ffd6e7;
-      --accent:#ff4d6d;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: 'Nunito', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg,#ffeef6 0%, #ffdfe6 50%, #f7f0ff 100%);
-      color:#3b2a2f;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+      overflow-x: hidden;
     }
 
-    /* ---------- REGISTRO ---------- */
-    .center-screen{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+    /* corazones flotando */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
     }
-    .card-panel{
-      background:rgba(255,255,255,0.9);
-      border-radius:18px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.12);
-      padding:22px;
-      width:360px;
-      max-width:94%;
-      text-align:center;
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 10s linear infinite;
     }
-    h2.title{
-      font-family:'Dancing Script', cursive;
-      font-size:2.2rem;
-      margin:6px 0 16px;
-      color:var(--accent);
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
     }
-    form input{
-      width:100%;
-      padding:10px 12px;
-      margin:8px 0;
-      border-radius:10px;
-      border:2px solid rgba(255,77,109,0.15);
-      outline:none;
-      font-size:0.95rem;
-    }
-    form button{
-      width:100%;
-      margin-top:12px;
-      background:linear-gradient(90deg,var(--accent),#ff6f86);
-      color:white;
-      border:none;
-      padding:10px;
-      border-radius:10px;
-      font-weight:600;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(255,77,109,0.18);
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1) rotate(45deg); opacity: 0; }
     }
 
-    /* ---------- CORAZONES (fondo) ---------- */
-    .hearts{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-      z-index:0;
-    }
-    .heart-el{
-      position:absolute;
-      width:18px;
-      height:18px;
-      transform:rotate(45deg);
-      opacity:0.9;
-      will-change:transform,opacity;
-    }
-    .heart-el::before,.heart-el::after{
-      content:'';
-      position:absolute;
-      width:18px;height:18px;border-radius:50%;background:var(--accent);
-    }
-    .heart-el::before{ top:-9px; left:0; }
-    .heart-el::after{ left:9px; top:0; }
-
-    /* ---------- CONTENIDO PRINCIPAL ---------- */
-    #mainContent{ display:none; position:relative; z-index:2; padding:28px 18px 60px; }
-
-    .page-header{
-      text-align:center;
-      margin-top:10px;
-    }
-    .page-header h1{
-      font-family:'Dancing Script',cursive;
-      font-size:2.8rem;
-      margin:6px 0;
-      color:#5a1a3c;
-      text-shadow:0 3px 12px rgba(0,0,0,0.12);
-    }
-    .page-header p.sub{
-      margin:6px 0 18px;
-      color:#4a2a35;
-      opacity:0.9;
-      font-weight:600;
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 2.5em;
+      color: #d6336c;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
     }
 
-    /* ---------- CARTA 3D (arreglada) ---------- */
-    .card-3d-wrap{
-      perspective:1200px;
-      width:340px;
-      max-width:94%;
-      margin:18px auto;
-      z-index:2;
-    }
-    .card-3d{
-      width:100%;
-      height:220px;
-      border-radius:14px;
-      position:relative;
-      transform-style:preserve-3d;
-      transition:transform 0.8s cubic-bezier(.2,.9,.2,1);
-      box-shadow:0 12px 30px rgba(0,0,0,0.18);
-      cursor:pointer;
-    }
-    .card-3d.is-flipped{ transform: rotateY(180deg); }
-
-    .card-face{
-      position:absolute;
-      inset:0;
-      border-radius:14px;
-      backface-visibility:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-    .card-front{
-      background:linear-gradient(180deg,#fff6fb,#ffeef6);
-      color:var(--accent);
-      font-weight:700;
-      font-size:1.05rem;
-    }
-    .card-back{
-      background:linear-gradient(180deg,#fff,#fff6f8);
-      transform:rotateY(180deg);
-      color:#4b2b35;
-      text-align:justify;
-      overflow:auto;
-      font-size:0.98rem;
-      line-height:1.45;
-      padding:20px;
-    }
-    /* ensure back text never overflows card bounds */
-    .card-back p{ margin:0; word-break:break-word; }
-
-    /* ---------- COLLAGE (imagen grande) ---------- */
-    .collage-wrap{ margin:26px auto; width:92%; max-width:720px; text-align:center; }
-    .collage{
-      width:100%;
-      display:block;
-      border-radius:14px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.16);
-      object-fit:cover;
-      max-height:520px;
+    /* carta */
+    .card {
+      width: 80%;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      text-align: justify;
+      font-size: 1.2em;
+      line-height: 1.6em;
+      color: #444;
+      transform: rotateX(5deg) rotateY(-2deg);
     }
 
-    /* ---------- LÍNEA DE AMOR (gráfica y responsiva) ---------- */
-    .timeline-area{ max-width:900px; margin:36px auto; padding:10px 18px; position:relative;}
-    .timeline{
-      position:relative;
-      padding:10px 0 40px;
-      margin:0 auto;
+    /* línea de tiempo */
+    .timeline {
+      position: relative;
+      margin: 50px auto;
+      padding: 20px;
+      width: 80%;
     }
-    .timeline::before{
-      content:'';
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      width:6px;
-      height:100%;
-      background:linear-gradient(180deg, rgba(255,77,109,0.95), rgba(255,154,180,0.9));
-      border-radius:6px;
-      top:0;
-      z-index:1;
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background-color: #d6336c;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -2px;
     }
-    .timeline-item{
-      position:relative;
-      width:50%;
-      padding:18px 30px;
-      box-sizing:border-box;
+    .container {
+      padding: 20px;
+      position: relative;
+      width: 50%;
     }
-    .timeline-item .box{
-      display:inline-block;
-      background:var(--soft);
-      padding:12px 18px;
-      border-radius:12px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.08);
-      max-width:90%;
-      text-align:left;
-      font-weight:600;
+    .left { left: 0; }
+    .right { left: 50%; }
+    .content {
+      padding: 15px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
-    .timeline-item.left{ left:0; text-align:right; }
-    .timeline-item.right{ left:50%; text-align:left; }
-    .timeline-item::after{
-      content:'';
-      position:absolute;
-      top:28px;
-      width:18px;
-      height:18px;
-      background:var(--accent);
-      color:white;
-      border-radius:50%;
-      z-index:2;
-      transform:translateX(-50%);
-      left:50%;
-      box-shadow:0 4px 10px rgba(0,0,0,0.12);
+    .left .content { margin-right: 25px; }
+    .right .content { margin-left: 25px; }
+
+    /* video */
+    .video {
+      text-align: center;
+      margin: 40px 0;
+    }
+    iframe {
+      width: 80%;
+      max-width: 560px;
+      height: 315px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
-    /* responsive: stack timeline items on small screens */
-    @media (max-width:760px){
-      .timeline::before{ left:28px; transform:none; height:100%; }
-      .timeline-item{ width:100%; padding-left:64px; padding-right:20px; margin-bottom:18px; }
-      .timeline-item.left, .timeline-item.right{ left:0; text-align:left; }
-      .timeline-item::after{ left:28px; transform:none; top:18px; }
-      .card-3d{ height:200px; }
+    /* mensajes */
+    .message-box {
+      width: 80%;
+      margin: 20px auto 50px;
+      text-align: center;
     }
-
-    /* VIDEO & MESSAGE */
-    .video-wrap{ text-align:center; margin:24px auto 36px; }
-    iframe.responsive{
-      width:calc(100% - 40px);
-      max-width:720px;
-      height:405px;
-      border-radius:12px;
-      box-shadow:0 12px 30px rgba(0,0,0,0.14);
-      border:0;
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #d6336c;
+      font-size: 1em;
+      resize: none;
     }
-    .message-area{ text-align:center; margin-bottom:60px; }
-    .message-area textarea{
-      width:min(720px,92%);
-      min-height:110px;
-      padding:14px;
-      border-radius:12px;
-      border:2px solid rgba(255,77,109,0.12);
-      font-size:1rem;
-      resize:none;
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #d6336c;
+      color: white;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .message-area .send-btn{
-      margin-top:12px;
-      background:linear-gradient(90deg,var(--accent),#ff7a95);
-      color:white;border:0;padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;
+    button:hover {
+      background: #a61e4d;
     }
-
-    /* small helper */
-    .muted{ opacity:0.85; font-size:0.95rem; margin-top:6px; }
   </style>
 </head>
 <body>
+  <div class="hearts">
+    <div class="heart" style="left:10%; animation-delay:0s;"></div>
+    <div class="heart" style="left:30%; animation-delay:2s;"></div>
+    <div class="heart" style="left:50%; animation-delay:4s;"></div>
+    <div class="heart" style="left:70%; animation-delay:6s;"></div>
+    <div class="heart" style="left:90%; animation-delay:8s;"></div>
+  </div>
 
-  <!-- corazones de fondo -->
-  <div class="hearts" aria-hidden="true"></div>
+  <h1>💖 Feliz Aniversario Amor 💖 <br> 28 de junio de 2025</h1>
 
-  <!-- REGISTRO (fake) -->
-  <section id="registroSection" class="center-screen">
-    <div class="card-panel">
-      <h2 class="title">💌 Nuestro rincón privado</h2>
-      <p class="muted">Completa estos datos para entrar (es solo un registro bonito) 💕</p>
-      <form id="fakeForm">
-        <input id="f_nombre" type="text" placeholder="Tu nombre 💕" required>
-        <input id="f_edad"  type="number" placeholder="Tu edad 🎂" required>
-        <input id="f_aniversario" type="text" placeholder="Día de nuestro aniversario 💍" required>
-        <input id="f_primerBeso" type="text" placeholder="Día de nuestro primer beso 💋" required>
-        <button type="submit">Ingresar y ver la sorpresa 💖</button>
-      </form>
-    </div>
-  </section>
+  <div class="card">
+    <p>
+      Hola mi amor 💕,<br><br>
+      Te amo de todas las maneras que puedas imaginar 🌹, amo el poder amarte, amo el que me ames ❤️.  
+      Me gustas muchísimo 😍. Puede que me hayas atraído inicialmente por tus cualidades,  
+      pero te amo con todos tus defectos 💕.  
+      Te amo tanto que no quiero saber qué habría pasado si hubiese conocido a otras personas 💫,  
+      porque nos complementamos ✨, porque nos entendemos 🤝, porque nos apoyamos 🌟.  
+      Porque me gustas, te quiero y te amo 💘.  
+      Porque tú eres más que suficiente 💎, porque tú siempre eres mi elección 💍.
+    </p>
+  </div>
 
-  <!-- CONTENIDO (oculto hasta submit) -->
-  <main id="mainContent" role="main">
-
-    <header class="page-header">
-      <h1>✨ Nuestro Aniversario ✨</h1>
-      <p class="sub">🎉 Feliz 2 meses como novios y 5 meses conociéndote 🎉</p>
-    </header>
-
-    <!-- CARTA 3D -->
-    <div class="card-3d-wrap" style="margin-top:6px;">
-      <div class="card-3d" id="card3d" tabindex="0" aria-pressed="false" title="Haz clic para abrir la carta">
-        <div class="card-face card-front">
-          <div>
-            <div style="font-size:1.05rem; font-weight:700;">💌 Haz clic para abrir la carta</div>
-            <div style="font-size:0.85rem; margin-top:6px; color:#6b3b43;">(Tu mensaje especial te espera)</div>
-          </div>
-        </div>
-        <div class="card-face card-back">
-          <p>
-            Hola mi amor ❤️<br><br>
-            Te amo de todas las maneras que puedas imaginar, amo el poder amarte, amo el que me ames, me gustas muchísimo. Puede que me hayas atraído inicialmente por tus cualidades, pero te amo con todos tus defectos. 💕<br><br>
-            Te amo tanto que no quiero saber qué habría pasado si hubiese conocido a otras personas, porque nos complementamos, porque nos entendemos, porque nos apoyamos. 🌹<br><br>
-            Porque tú eres más que suficiente, porque tú siempre eres mi elección. 💖
-          </p>
-        </div>
+  <h2 style="text-align:center; color:#d6336c; margin-top:40px;">🌸 Nuestra Línea de Amor 🌸</h2>
+  <div class="timeline">
+    <div class="container left">
+      <div class="content">
+        <h3>💌 El comienzo de nuestra historia</h3>
+        <p>28 de marzo de 2025</p>
       </div>
     </div>
-
-    <!-- COLLAGE (imagen grande) -->
-    <div class="collage-wrap">
-      <!-- link directo de Drive (usa este formato) -->
-      <img class="collage" id="collageImg"
-           src="https://drive.google.com/uc?export=view&id=1q6FF5_bGzpuJouhwkJqCFIQPMSnhDq-w"
-           alt="Nuestro collage de recuerdos">
-      <p class="muted">📸 Nuestro recuerdo (collage)</p>
-    </div>
-
-    <!-- LÍNEA DE AMOR -->
-    <section class="timeline-area" aria-label="Linea de amor">
-      <div class="timeline">
-        <div class="timeline-item left">
-          <div class="box">💫 El comienzo de nuestra historia<br><span style="font-weight:600;opacity:0.9">📅 28 de marzo de 2025</span></div>
-        </div>
-
-        <div class="timeline-item right">
-          <div class="box">🌹 Empezó nuestro camino<br><span style="font-weight:600;opacity:0.9">📅 29 de junio de 2025</span></div>
-        </div>
-
-        <div class="timeline-item left">
-          <div class="box">💍 Nuestro primer aniversario<br><span style="font-weight:600;opacity:0.9">📅 29 de julio de 2025</span></div>
-        </div>
-
-        <div class="timeline-item right">
-          <div class="box">✨ Nuestro hermoso presente<br><span style="font-weight:600;opacity:0.9">📅 28 de agosto de 2025</span></div>
-        </div>
+    <div class="container right">
+      <div class="content">
+        <h3>💞 Empezó nuestro camino</h3>
+        <p>29 de junio de 2025</p>
       </div>
-    </section>
-
-    <!-- VIDEO -->
-    <div class="video-wrap" aria-label="Video especial">
-      <iframe class="responsive"
-              src="https://www.youtube.com/embed/vqcjoseWAi4"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen title="Nuestra canción"></iframe>
     </div>
+    <div class="container left">
+      <div class="content">
+        <h3>🎉 Nuestro primer aniversario</h3>
+        <p>29 de julio de 2025</p>
+      </div>
+    </div>
+    <div class="container right">
+      <div class="content">
+        <h3>🌹 Nuestro hermoso presente</h3>
+        <p>28 de agosto de 2025</p>
+      </div>
+    </div>
+  </div>
 
-    <!-- MENSAJE FINAL -->
-    <section class="message-area">
-      <h3 style="font-family:'Dancing Script',cursive;font-size:1.6rem;margin-bottom:6px;">✍️ Déjame tu mensajito 💕</h3>
-      <textarea id="msgText" placeholder="Escribe algo bonito..."></textarea><br>
-      <button class="send-btn" id="sendBtn">Enviar y guardar 💖</button>
-      <p id="saveNote" class="muted" style="display:none;margin-top:10px;">Mensaje guardado en tu navegador (localmente) ✅</p>
-    </section>
+  <div class="video">
+    <h2>🎶 Una canción para ti 🎶</h2>
+    <iframe src="https://www.youtube.com/embed/vqcjoseWAi4" frameborder="0" allowfullscreen></iframe>
+  </div>
 
-  </main>
-
-  <script>
-    /* ------------------ Hearts animation ------------------ */
-    const hearts = document.querySelector('.hearts');
-    function spawnHeart(i){
-      const el = document.createElement('div');
-      el.className = 'heart-el';
-      // random size and left
-      const size = 12 + Math.random()*22;
-      el.style.width = size + 'px';
-      el.style.height = size + 'px';
-      el.style.left = (Math.random()*100) + 'vw';
-      el.style.top = (100 + Math.random()*20) + 'vh';
-      el.style.background = 'transparent';
-      el.style.opacity = (0.4 + Math.random()*0.7);
-      // random animation duration and delay
-      const dur = 6 + Math.random()*6;
-      el.style.transition = `transform ${dur}s linear, opacity ${dur}s linear`;
-      hearts.appendChild(el);
-      // trigger transform (move up)
-      requestAnimationFrame(()=> {
-        el.style.transform = `translateY(-140vh) rotate(45deg)`;
-        el.style.opacity = 0;
-      });
-      // remove after animation
-      setTimeout(()=> el.remove(), (dur+0.2)*1000);
-    }
-    // continuous spawn
-    setInterval(()=> spawnHeart(), 600);
-    // initial hearts
-    for(let i=0;i<8;i++) spawnHeart();
-
-    /* ------------------ Form / Evento ------------------ */
-    const fakeForm = document.getElementById('fakeForm');
-    const registroSection = document.getElementById('registroSection');
-    const mainContent = document.getElementById('mainContent');
-
-    fakeForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      // we could read values if needed:
-      // const nombre = document.getElementById('f_nombre').value.trim();
-      // show content
-      registroSection.style.display = 'none';
-      mainContent.style.display = '';
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
-
-    /* ------------------ Card flip accessible ------------------ */
-    const card3d = document.getElementById('card3d');
-    card3d.addEventListener('click', ()=> card3d.classList.toggle('is-flipped'));
-    // keyboard accessible
-    card3d.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card3d.classList.toggle('is-flipped'); }
-    });
-
-    /* ------------------ Save message locally (simple) ------------------ */
-    const sendBtn = document.getElementById('sendBtn');
-    const msgText = document.getElementById('msgText');
-    const saveNote = document.getElementById('saveNote');
-    sendBtn.addEventListener('click', ()=>{
-      const text = msgText.value.trim();
-      if(!text){ alert('Escribe algo lindo antes de enviar 💌'); return; }
-      // save to localStorage so it's available later in same browser
-      let msgs = JSON.parse(localStorage.getItem('mensajes_nuestro_rincon')||'[]');
-      msgs.push({text, date:new Date().toISOString()});
-      localStorage.setItem('mensajes_nuestro_rincon', JSON.stringify(msgs));
-      msgText.value = '';
-      saveNote.style.display = 'block';
-      setTimeout(()=> saveNote.style.display='none', 3000);
-    });
-
-    /* ------------------ IMAGE TROUBLESHOOTING ------------------ */
-    // If image fails to load, show a friendly message and suggestion.
-    const collageImg = document.getElementById('collageImg');
-    collageImg.addEventListener('error', ()=>{
-      collageImg.style.display = 'none';
-      const alt = document.createElement('div');
-      alt.innerHTML = '<div style="max-width:720px;margin:12px auto;padding:18px;background:#fff0f5;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08);">La imagen no se pudo cargar desde Google Drive. <br><strong>Sugerencia:</strong> en Drive -> botón derecho sobre la imagen -> Compartir -> "Cualquiera con el enlace" (Ver). Luego utiliza el enlace con formato:<br><code>https://drive.google.com/uc?export=view&id=TU_ID</code><br>O sube la imagen directamente al repositorio (carpeta <code>/images</code>) y usa <code>/images/nombre.jpg</code>.</div>';
-      collageImg.parentNode.appendChild(alt);
-    });
-
-    /* ------------------ small improvement: reveal timeline items on scroll (fade-in) ------------------ */
-    const tlItems = document.querySelectorAll('.timeline-item');
-    const revealOnScroll = (entries, obs) => {
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'translateY(0)';
-          obs.unobserve(entry.target);
-        }
-      });
-    };
-    const observer = new IntersectionObserver(revealOnScroll, {threshold:0.15});
-    tlItems.forEach((it,i)=>{
-      it.style.opacity = 0;
-      it.style.transform = 'translateY(18px)';
-      observer.observe(it);
-    });
-  </script>
+  <div class="message-box">
+    <h2>💌 Deja un mensaje aquí 💌</h2>
+    <textarea placeholder="Escribe algo bonito..."></textarea>
+    <br>
+    <button>Enviar</button>
+  </div>
 </body>
 </html>
