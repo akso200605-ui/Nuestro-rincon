@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuestro Amor 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://i.ibb.co/1Q2Y8pQ/hearts-bg.gif') repeat;
+      color: #fff;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Registro */
+    #registro {
+      margin-top: 100px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e63950;
+    }
+
+    /* Carta 3D */
+    .card {
+      width: 400px;
+      margin: 40px auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      transform: perspective(1000px) rotateY(0deg);
+      transition: transform 1s;
+    }
+
+    .card:hover {
+      transform: perspective(1000px) rotateY(10deg);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #ff4d6d;
+    }
+
+    .card p {
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: justify;
+      word-wrap: break-word;
+    }
+
+    /* Imagen */
+    .big-photo {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: block;
+    }
+
+    /* Línea de tiempo */
+    .timeline {
+      width: 80%;
+      margin: 50px auto;
+      text-align: left;
+      border-left: 3px solid #ff4d6d;
+      padding-left: 20px;
+    }
+
+    .event {
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .event::before {
+      content: "❤";
+      position: absolute;
+      left: -35px;
+      color: #ff4d6d;
+      font-size: 20px;
+    }
+
+    .event h3 {
+      margin: 0;
+      color: #fff;
+    }
+
+    .event p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Registro -->
+  <div id="registro">
+    <h1>Ingresa para entrar a nuestro mundo 💕</h1>
+    <input type="text" id="nombre" placeholder="Tu nombre">
+    <input type="number" id="edad" placeholder="Tu edad">
+    <input type="text" id="aniversario" placeholder="Día de nuestro aniversario">
+    <input type="text" id="primerBeso" placeholder="Día de nuestro primer beso">
+    <button onclick="entrar()">Entrar</button>
+  </div>
+
+  <!-- Contenido principal -->
+  <div id="contenido" class="hidden">
+    <h1>Bienvenida mi amor 💖</h1>
+
+    <!-- Carta -->
+    <div class="card">
+      <h2>Para ti, mi vida</h2>
+      <p>
+        Hola mi amor, Te amo de todas las maneras que puedas imaginar, amo el poder amarte, amo el que me ames, me gustas muchísimo, 
+        puede que me hayas atraído inicialmente por tus cualidades, pero te amo con todos tus defectos. 
+        Te amo tanto que no quiero saber qué habría pasado si hubiese conocido a otras personas, porque nos complementamos, 
+        porque nos entendemos, porque nos apoyamos, porque me gustas, te quiero y te amo, 
+        porque tú eres más que suficiente, porque tú siempre eres mi elección. 💕
+      </p>
+    </div>
+
+    <!-- Imagen -->
+    <img src="collage" alt="Nuestro collage" class="big-photo">
+
+    <!-- Línea de tiempo -->
+    <div class="timeline">
+      <div class="event">
+        <h3>💌 Primer beso</h3>
+        <p>Un momento que guardo en el corazón para siempre.</p>
+      </div>
+      <div class="event">
+        <h3>💍 Aniversario</h3>
+        <p>El día que marcó el inicio de nuestra historia eterna.</p>
+      </div>
+      <div class="event">
+        <h3>🌹 Hoy</h3>
+        <p>Hoy y siempre, sigo eligiéndote a ti.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function entrar() {
+      document.getElementById('registro').classList.add('hidden');
+      document.getElementById('contenido').classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
